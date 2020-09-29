@@ -1,3 +1,4 @@
+// #!/usr/bin/env node
 const path = require('path')
 const fs = require('fs')
 const { program } = require('commander')
@@ -5,19 +6,30 @@ const chalk = require("chalk")
 const inquirer = require('inquirer')
 const Handlebars = require('handlebars')
 
-const questions = require('./questions')
-const { downloadFromGit, runInstall } = require('./util')
+const createQuestions = require('./questions')
+const { downloadFromGit, runInstall, checkVersion } = require('./util')
+const packageConfig = require('../package.json')
 
 program
-  .version('1.0.2')  // --version 版本
-  .command('init') // 初始化命令
+  .version(packageConfig.version)  // --version 版本
+  .command('init [name]') // 初始化命令
   .description('初始化模板')
-  .action(async () => {
+  .action(async (projectName) => {
 
-    const targetPath = process.cwd();
+    await checkVersion()
+
+    let targetPath = process.cwd();
+
+    if (projectName) {
+      targetPath = path.resolve(process.cwd(),projectName);
+      if(fs.existsSync(targetPath)){
+        console.log(chalk.red(`当前目录已存在文件名${projectName}， 请重新输入!`));
+        return;
+      }
+    }
 
     // 询问
-    const paramater = await inquirer.prompt(questions)
+    const paramater = await inquirer.prompt(createQuestions(projectName))
     // 下载模板
     await downloadFromGit(paramater.template.name, paramater.template.gitUrl, targetPath)
 

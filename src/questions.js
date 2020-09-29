@@ -1,6 +1,6 @@
 const projectTemplates = require('./project')
 
-const questions = [
+const createQuestions = (projectName) => [
   {
     name:"template",
     type:'list',
@@ -11,7 +11,7 @@ const questions = [
     name:"name",
     type: 'string',
     message:"请输入项目名称",
-    default:"project"
+    default: projectName || "project"
   },
   {
     name:"version",
@@ -38,4 +38,4 @@ const questions = [
   },
 ]
 
-module.exports = questions
+module.exports = createQuestions
