@@ -77,7 +77,6 @@ const checkVersion = async () => {
     if (res.status === 200) {
       const latestVersion = res.data['dist-tags'].latest
       const localVersion = packageConfig.version
-      console.log(localVersion, latestVersion)
       // 比较版本，如果本地版本比线上版本小，提示一下
       if (semver.lt(localVersion, latestVersion)) {
         console.log(logSymbols.info,chalk.yellow('报告!有一个新的fu-cli版本, 请及时更新'));

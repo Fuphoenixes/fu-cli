@@ -1,6 +1,6 @@
 {
   "name": "@sanp/fu-cli",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "自定义脚手架",
   "scripts": {
     "clean": "rimraf ./bin && mkdir bin",
