@@ -64,6 +64,11 @@ const runInstall = (
  * @returns {Promise<void>}
  */
 const checkVersion = async () => {
+  if (!semver.satisfies(process.version, packageConfig.engines.node)) {
+     console.log(logSymbols.error,chalk.red(' 你的node版本必须 >=' + packageConfig.engines.node + '.x 才能使用ds-cli'));
+     return Promise.reject('node版本过低')
+  }
+
   try {
     const res = await axios({
       url: 'https://registry.npmjs.org/@sanp/fu-cli',
